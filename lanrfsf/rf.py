@@ -6,9 +6,9 @@ import sys
 import os
 
 def print_tips():
-    print '''ERROR: config not specified
-usage:  sf [FILE_NAME]                   
-        rf [FILE_CODE/FILE_URL]
+    print '''ERROR: args not specified
+usage:  sf [FILE_NAME]  #send file
+        rf [FILE_CODE/FILE_URL]  #receive file
 if you are useing OSX, the file_url will be copy to your clipboard
             '''
 
