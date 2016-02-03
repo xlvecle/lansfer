@@ -12,6 +12,7 @@ import SimpleHTTPServerModified
 import SocketServer
 
 httpd = None
+is_shutdown = False
 
 if os.name != "nt":
     import fcntl
@@ -53,21 +54,21 @@ if you are useing OSX, the file_url will be copy to your clipboard
                 '''
 
 def close_server(httpd):
-    for i in xrange(1,20):
-        import time
-        time.sleep(1)
-    httpd.shutdown()
+    import threading
+    assassin = threading.Thread(target=httpd.shutdown)
+    assassin.daemon = True
+    assassin.start()
 
 def main():
     if len(sys.argv)<2:
         print_tips()
         exit()
-    port = '8001'
+    PORT = 8001
     filename = ''
     filename = sys.argv[1]
     ip = get_lan_ip()
 
-    address = "http://" + ip + ":" + port + "/" + filename
+    address = "http://" + ip + ":" + str(PORT) + "/" + filename
     print address
     z = zlib.compress(address)
     result = base64.b64encode(z)
@@ -75,8 +76,6 @@ def main():
     cmd = 'echo "%s" | pbcopy ' % result
     if sys.platform == 'darwin':
         os.system(cmd)
-
-    PORT = 8001
 
     Handler = SimpleHTTPServerModified.SimpleHTTPRequestHandler
 
@@ -87,12 +86,20 @@ def main():
 
     import threading
     assassin = threading.Thread(target=httpd.serve_forever)
-    assassin2 = threading.Thread(target=close_server, args=(httpd,))
-
-    # assassin.daemon = True
+    assassin.daemon = True
     assassin.start()
-    assassin2.start()
-    SimpleHTTPServerModified.max_live_thread=assassin2
+    SimpleHTTPServerModified.http_thread = assassin
+    import time
+    try:
+        for x in xrange(1,10):
+            if is_shutdown:
+                close_server(httpd)
+                exit()
+            time.sleep(1)
+        close_server(httpd)
+    except (KeyboardInterrupt, SystemExit):
+        print "exit"
+        exit()
     
 if __name__ == "__main__":
 	main()

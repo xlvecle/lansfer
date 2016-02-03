@@ -27,8 +27,7 @@ except ImportError:
 
 running_httpd = None
 file_name = ''
-is_shutdown = False
-max_live_thread = None
+http_thread = None
 
 class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
@@ -52,11 +51,13 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         print "Waiting to receive " + self.path + "..."
         if self.path == "/"+file_name:
             import threading
+            print "smp"
+            print running_httpd
             assassin = threading.Thread(target=running_httpd.shutdown)
             assassin.daemon = True
             assassin.start()
-            is_shutdown = True
-            max_live_thread._Thread__stop()
+            http_thread._Thread__stop()
+            sf.is_shutdown = True
             print "success"
         if f:
             try:
