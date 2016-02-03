@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "lanrfsf",
-    version = "0.1.1",
+    version = "0.1.2",
     packages = ['lanrfsf'],
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine

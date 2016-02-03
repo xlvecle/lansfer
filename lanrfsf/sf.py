@@ -78,6 +78,8 @@ def get_lan_ip():
                 pass
     return ip
 
+def args_handler():
+    pass
 
 def print_tips():
     print '''ERROR: args not specified
