@@ -49,15 +49,13 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         """Serve a GET request."""
         f = self.send_head()
         import sf
-        print running_httpd
-        print self.path
+        print "Waiting to receive " + self.path + "..."
         if self.path == "/"+file_name:
             import threading
             assassin = threading.Thread(target=running_httpd.shutdown)
             assassin.daemon = True
             assassin.start()
             is_shutdown = True
-            print "///"
             max_live_thread._Thread__stop()
             print "success"
         if f:

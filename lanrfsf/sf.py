@@ -55,7 +55,6 @@ if you are useing OSX, the file_url will be copy to your clipboard
 def close_server(httpd):
     for i in xrange(1,20):
         import time
-        print 'hi'
         time.sleep(1)
     httpd.shutdown()
 
@@ -76,22 +75,16 @@ def main():
     cmd = 'echo "%s" | pbcopy ' % result
     if sys.platform == 'darwin':
         os.system(cmd)
-    # os.system('python -m SimpleHTTPServer ' + port)
 
     PORT = 8001
 
     Handler = SimpleHTTPServerModified.SimpleHTTPRequestHandler
 
     httpd = SocketServer.TCPServer(("", PORT), Handler)
-    print SimpleHTTPServerModified.running_httpd
     SimpleHTTPServerModified.running_httpd=httpd
     SimpleHTTPServerModified.file_name=filename
-    print httpd
-    # exit()
     print "serving at port", PORT
 
-    # httpd.serve_forever()
-    # return response and shutdown the server
     import threading
     assassin = threading.Thread(target=httpd.serve_forever)
     assassin2 = threading.Thread(target=close_server, args=(httpd,))
@@ -100,8 +93,6 @@ def main():
     assassin.start()
     assassin2.start()
     SimpleHTTPServerModified.max_live_thread=assassin2
-    # assassin2._Thread__stop()
-    exit()
     
 if __name__ == "__main__":
 	main()
