@@ -8,11 +8,44 @@ import struct
 import sys
 import os
 import socket
-import SimpleHTTPServerModified
 import SocketServer
+import SimpleHTTPServer
+import thread
+import time
+
+global httpd
+global filename
+global is_shutdown
 
 httpd = None
+filename = ''
 is_shutdown = False
+
+class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        global httpd
+        global is_shutdown
+        """Serve a GET request."""
+        f = self.send_head()
+        import sf
+        print "Waiting to receive " + self.path + "..."
+        if self.path == "/"+filename:
+            def kill_me_please(server):
+                server.shutdown()
+            thread.start_new_thread(kill_me_please, (httpd,))
+            is_shutdown = True
+            print "success"
+        if f:
+            try:
+                self.copyfile(f, self.wfile)
+            finally:
+                f.close()
+
+class MyTCPServer(SocketServer.TCPServer):
+    def server_bind(self):
+        import socket
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.socket.bind(self.server_address)
 
 if os.name != "nt":
     import fcntl
@@ -53,13 +86,10 @@ usage:  sf [FILE_NAME]  #send file
 if you are useing OSX, the file_url will be copy to your clipboard
                 '''
 
-def close_server(httpd):
-    import threading
-    assassin = threading.Thread(target=httpd.shutdown)
-    assassin.daemon = True
-    assassin.start()
-
 def main():
+    global httpd
+    global filename
+    global is_shutdown
     if len(sys.argv)<2:
         print_tips()
         exit()
@@ -77,26 +107,16 @@ def main():
     if sys.platform == 'darwin':
         os.system(cmd)
 
-    Handler = SimpleHTTPServerModified.SimpleHTTPRequestHandler
-
-    httpd = SocketServer.TCPServer(("", PORT), Handler)
-    SimpleHTTPServerModified.running_httpd=httpd
-    SimpleHTTPServerModified.file_name=filename
+    Handler = MyHandler
+    httpd = MyTCPServer(("", PORT), Handler)
     print "serving at port", PORT
+    thread.start_new_thread(httpd.serve_forever, ())
 
-    import threading
-    assassin = threading.Thread(target=httpd.serve_forever)
-    assassin.daemon = True
-    assassin.start()
-    SimpleHTTPServerModified.http_thread = assassin
-    import time
     try:
         for x in xrange(1,10):
             if is_shutdown:
-                close_server(httpd)
                 exit()
             time.sleep(1)
-        close_server(httpd)
     except (KeyboardInterrupt, SystemExit):
         print "exit"
         exit()
