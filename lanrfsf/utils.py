@@ -2,6 +2,9 @@
 import os
 import socket
 
+desc = '''A simple tool for transfer file in LAN
+If you are using OSX, the file_url will be copy on your clipboard'''
+
 
 def print_tips():
     print '''ERROR: args not specified

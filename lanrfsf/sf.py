@@ -13,7 +13,7 @@ import SimpleHTTPServer
 import thread
 import time
 import argparse
-from utils import get_lan_ip, print_tips, check_port_in_use
+from utils import get_lan_ip, print_tips, check_port_in_use, desc
 
 global httpd
 global filename
@@ -50,7 +50,7 @@ class MyTCPServer(SocketServer.TCPServer):
         self.socket.bind(self.server_address)
 
 def args_handler():
-    parser = argparse.ArgumentParser(description='A simple tool for transfer file in LAN')
+    parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("filename", help="filename",
                         type=str)
     parser.add_argument("-p", "--port", help="Http Port", type=int)
