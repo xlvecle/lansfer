@@ -2,6 +2,24 @@
 import os
 import socket
 
+
+def print_tips():
+    print '''ERROR: args not specified
+usage:  sf [FILE_NAME]  #send file                 
+        rf [FILE_CODE/FILE_URL]  #receive file
+if you are useing OSX, the file_url will be copy to your clipboard
+                '''
+
+def check_port_in_use(port):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	result = s.connect_ex(('127.0.0.1', port))
+
+	if result == 0:
+	    # print('socket is open')
+	    return True
+	s.close()
+	return False
+
 if os.name != "nt":
     import fcntl
     import struct

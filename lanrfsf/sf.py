@@ -12,7 +12,7 @@ import SocketServer
 import SimpleHTTPServer
 import thread
 import time
-from utils import get_lan_ip
+from utils import get_lan_ip, print_tips, check_port_in_use
 
 global httpd
 global filename
@@ -51,13 +51,6 @@ class MyTCPServer(SocketServer.TCPServer):
 def args_handler():
     pass
 
-def print_tips():
-    print '''ERROR: args not specified
-usage:  sf [FILE_NAME]  #send file                 
-        rf [FILE_CODE/FILE_URL]  #receive file
-if you are useing OSX, the file_url will be copy to your clipboard
-                '''
-
 def main():
     global httpd
     global filename
@@ -66,6 +59,8 @@ def main():
         print_tips()
         exit()
     PORT = 8001
+    while check_port_in_use(PORT):
+        PORT = PORT + 1
     filename = ''
     filename = sys.argv[1]
     ip = get_lan_ip()

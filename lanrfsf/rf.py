@@ -4,13 +4,7 @@ import zlib
 import base64
 import sys
 import os
-
-def print_tips():
-    print '''ERROR: args not specified
-usage:  sf [FILE_NAME]  #send file
-        rf [FILE_CODE/FILE_URL]  #receive file
-if you are useing OSX, the file_url will be copy to your clipboard
-            '''
+from utils import get_lan_ip, print_tips
 
 def main():
     filename = ''
