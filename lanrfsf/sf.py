@@ -12,6 +12,7 @@ import SocketServer
 import SimpleHTTPServer
 import thread
 import time
+import argparse
 from utils import get_lan_ip, print_tips, check_port_in_use
 
 global httpd
@@ -49,20 +50,31 @@ class MyTCPServer(SocketServer.TCPServer):
         self.socket.bind(self.server_address)
 
 def args_handler():
-    pass
+    parser = argparse.ArgumentParser(description='A simple tool for transfer file in LAN')
+    parser.add_argument("filename", help="filename",
+                        type=str)
+    parser.add_argument("-p", "--port", help="Http Port", type=int)
+    parser.add_argument("-e", "--eth", help="Ethernet Networking Interface")
+    args = parser.parse_args()
+    return args
 
 def main():
+    args = args_handler()
     global httpd
     global filename
     global is_shutdown
-    if len(sys.argv)<2:
-        print_tips()
-        exit()
+    # if len(sys.argv)<2:
+        # print_tips()
+        # exit()
     PORT = 8001
+    if args.port:
+        PORT = args.port
     while check_port_in_use(PORT):
         PORT = PORT + 1
     filename = ''
-    filename = sys.argv[1]
+    # filename = sys.argv[1]
+    if args.filename:
+        filename = args.filename
     ip = get_lan_ip()
 
     address = "http://" + ip + ":" + str(PORT) + "/" + filename
@@ -89,4 +101,4 @@ def main():
         exit()
     
 if __name__ == "__main__":
-	main()
+    main()
