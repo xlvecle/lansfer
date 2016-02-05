@@ -24,6 +24,7 @@ def args_handler(script_type):
                         type=str)
     parser.add_argument("-p", "--port", help="Http Port", type=int)
     parser.add_argument("-e", "--eth", help="Ethernet Networking Interface")
+    parser.add_argument("-a", "--alive", help="Disable auto stop", action="store_true", default=False)
     args = parser.parse_args()
     return args
 
