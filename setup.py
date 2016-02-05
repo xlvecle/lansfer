@@ -5,24 +5,30 @@ setup(
     name = "lansfer",
     version = "0.1.2",
     packages = ['lansfer'],
-    # Project uses reStructuredText, so ensure that the docutils get
-    # installed or upgraded on the target machine
     package_data = {
-        # If any package contains *.txt or *.rst files, include them:
-        # '': ['*.txt', '*.rst'],
-        # # And include any *.msg files found in the 'hello' package, too:
-        # 'hello': ['*.msg'],
     },
-    # metadata for upload to PyPI
     author = "xlvecle",
     author_email = "xingke0@gmail",
     description = "A simple tool for transfer file in LAN",
-    license = "http://www.wtfpl.net/txt/copying/",
+    license = '''            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+
+ Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.
+
+    ''',
     entry_points="""
     [console_scripts]
     rf = lansfer.rf:main
     sf = lansfer.sf:main
     """,
-    url='xlvecle.github.io/lansfer'  # project home page, if any
-    # could also include long_description, download_url, classifiers, etc.
+    url='xlvecle.github.io/lansfer'
 )

@@ -13,7 +13,7 @@ import SimpleHTTPServer
 import thread
 import time
 import argparse
-from utils import get_lan_ip, print_tips, check_port_in_use, desc
+from utils import get_lan_ip, print_tips, check_port_in_use, desc, args_handler
 
 global httpd
 global filename
@@ -49,35 +49,23 @@ class MyTCPServer(SocketServer.TCPServer):
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind(self.server_address)
 
-def args_handler():
-    parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("filename", help="filename",
-                        type=str)
-    parser.add_argument("-p", "--port", help="Http Port", type=int)
-    parser.add_argument("-e", "--eth", help="Ethernet Networking Interface")
-    args = parser.parse_args()
-    return args
-
 def main():
-    args = args_handler()
+    args = args_handler('sf')
     global httpd
     global filename
     global is_shutdown
-    # if len(sys.argv)<2:
-        # print_tips()
-        # exit()
+
     PORT = 8410
     if args.port:
         PORT = args.port
     while check_port_in_use(PORT):
         PORT = PORT + 1
     filename = ''
-    # filename = sys.argv[1]
     if args.filename:
         filename = args.filename
     ip = get_lan_ip()
 
-    address = "http://" + ip + ":" + str(PORT) + "/" + filename
+    address = ip + ":" + str(PORT) + "/" + filename
     print address
     z = zlib.compress(address)
     result = base64.b64encode(z)
