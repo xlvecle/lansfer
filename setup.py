@@ -2,9 +2,9 @@ import codecs
 from setuptools import setup, find_packages
 
 setup(
-    name = "lanrfsf",
+    name = "lansfer",
     version = "0.1.2",
-    packages = ['lanrfsf'],
+    packages = ['lansfer'],
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine
     package_data = {
@@ -20,9 +20,9 @@ setup(
     license = "http://www.wtfpl.net/txt/copying/",
     entry_points="""
     [console_scripts]
-    rf = lanrfsf.rf:main
-    sf = lanrfsf.sf:main
+    rf = lansfer.rf:main
+    sf = lansfer.sf:main
     """,
-    url='xlvecle.github.io/lanrfsf'  # project home page, if any
+    url='xlvecle.github.io/lansfer'  # project home page, if any
     # could also include long_description, download_url, classifiers, etc.
 )
