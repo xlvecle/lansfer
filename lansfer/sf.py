@@ -34,15 +34,15 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         f = self.send_head()
         import sf
         print "Waiting to receive " + self.path + "..."
-        if self.path == "/"+filename and not alive:
-            def kill_me_please(server):
-                server.shutdown()
-            thread.start_new_thread(kill_me_please, (httpd,))
-            is_shutdown = True
-            print "success"
         if f:
             try:
                 self.copyfile(f, self.wfile)
+                if self.path == "/"+filename and not alive:
+                    def kill_me_please(server):
+                        server.shutdown()
+                    thread.start_new_thread(kill_me_please, (httpd,))
+                    is_shutdown = True
+                    print "success"
             finally:
                 f.close()
 

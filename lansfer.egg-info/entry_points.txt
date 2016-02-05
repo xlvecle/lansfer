@@ -1,0 +1,5 @@
+
+    [console_scripts]
+    rf = lansfer.rf:main
+    sf = lansfer.sf:main
+    
