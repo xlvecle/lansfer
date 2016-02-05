@@ -15,7 +15,9 @@
 使用方法:
 
 > sf [-h] [-p PORT] [-a] filename
+
 > rf [-h] filename
+
 > 在一个命令行下输入 sf [你需要发送的文件], 在另一台机器的终端输入rf [刚才sf 生成的 url 或者生成的那一串 code]
 
 特色:
