@@ -2,3 +2,4 @@ build/
 dist/
 lanrfsf.egg-info/
 lansfer.egg-info/
+*.pyc
