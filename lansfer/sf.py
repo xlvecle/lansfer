@@ -1,19 +1,14 @@
-#coding: utf-8
+# coding: utf-8
 
 import zlib
 import base64
-import socket
-import fcntl
-import struct
 import sys
 import os
-import socket
 import SocketServer
 import SimpleHTTPServer
 import thread
 import time
-import argparse
-from utils import get_lan_ip, print_tips, check_port_in_use, desc, args_handler
+from utils import get_lan_ip, check_port_in_use, args_handler
 
 global httpd
 global filename
@@ -25,6 +20,7 @@ filename = ''
 is_shutdown = False
 alive = False
 
+
 class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
         global httpd
@@ -32,12 +28,11 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         global alive
         """Serve a GET request."""
         f = self.send_head()
-        import sf
         print "Waiting to receive " + self.path + "..."
         if f:
             try:
                 self.copyfile(f, self.wfile)
-                if self.path == "/"+filename and not alive:
+                if self.path == "/" + filename and not alive:
                     def kill_me_please(server):
                         server.shutdown()
                     thread.start_new_thread(kill_me_please, (httpd,))
@@ -46,11 +41,13 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             finally:
                 f.close()
 
+
 class MyTCPServer(SocketServer.TCPServer):
     def server_bind(self):
         import socket
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind(self.server_address)
+
 
 def main():
     args = args_handler('sf')
@@ -90,13 +87,13 @@ def main():
     thread.start_new_thread(httpd.serve_forever, ())
 
     try:
-        for x in xrange(1,ALIVE_TIME):
+        for x in xrange(1, ALIVE_TIME):
             if is_shutdown:
                 exit()
             time.sleep(1)
     except (KeyboardInterrupt, SystemExit):
         print "exit"
         exit()
-    
+
 if __name__ == "__main__":
     main()
