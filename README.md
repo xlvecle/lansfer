@@ -2,7 +2,9 @@
 
 ---
 
-一款使用 http 来传输文件的命令行工具
+一款使用 python SimpleHTTPServer 来传输文件的命令行工具
+
+>[http://xlvecle.github.io/lansfer/](http://xlvecle.github.io/lansfer/)
 
 使用场景:
 
