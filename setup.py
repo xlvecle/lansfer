@@ -2,15 +2,15 @@ import codecs
 from setuptools import setup, find_packages
 
 setup(
-    name = "lansfer",
-    version = "0.1.3",
-    packages = ['lansfer'],
-    package_data = {
+    name="lansfer",
+    version="0.1.3",
+    packages=['lansfer'],
+    package_data={
     },
-    author = "xlvecle",
-    author_email = "xingke0@gmail",
-    description = "A simple tool for transfer file in LAN",
-    license = '''            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+    author="xlvecle",
+    author_email="xingke0@gmail",
+    description="A simple tool for transfer file in LAN",
+    license='''            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
 
  Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>

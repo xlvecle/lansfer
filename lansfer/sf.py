@@ -57,11 +57,11 @@ def main():
     global alive
 
     PORT = 8410
-    ALIVE_TIME = 20
+    ALIVE_TIME = 30
 
     if args.alive:
         alive = args.alive
-        ALIVE_TIME = 120
+        ALIVE_TIME = 1200
 
     if args.port:
         PORT = args.port
